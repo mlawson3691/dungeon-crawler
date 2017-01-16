@@ -10,6 +10,7 @@ export default class Map extends Component {
       cellCount: 3750,
       mapWidth: 75,
       cells: [],
+      darkness: true,
       hero: {
         'level': 1,
         'xp': 0,
@@ -31,9 +32,11 @@ export default class Map extends Component {
         'monster': false,
         'potion': false,
         'weapon': false,
-        'hero': false
+        'hero': false,
+        'hidden': true
       }
-      if (counter === this.state.hero.location) {
+      var hero = this.state.hero.location;
+      if (counter === hero) {
         current.hero = true;
       } else if (Math.random() > 0.95) {
         current.monster = true;
@@ -42,12 +45,55 @@ export default class Map extends Component {
       } else if (Math.random() > 0.99) {
         current.weapon = true;
       }
+      if (counter === hero ||
+          counter === hero + 1 ||
+          counter === hero + 2 ||
+          counter === hero + 3 ||
+          counter === hero - 1 ||
+          counter === hero - 2 ||
+          counter === hero - 3 ||
+          counter === hero + 72 ||
+          counter === hero + 73 ||
+          counter === hero + 74 ||
+          counter === hero + 75 ||
+          counter === hero + 76 ||
+          counter === hero + 77 ||
+          counter === hero + 78 ||
+          counter === hero + 148 ||
+          counter === hero + 149 ||
+          counter === hero + 150 ||
+          counter === hero + 151 ||
+          counter === hero + 152 ||
+          counter === hero + 224 ||
+          counter === hero + 225 ||
+          counter === hero + 226 ||
+          counter === hero - 72 ||
+          counter === hero - 73 ||
+          counter === hero - 74 ||
+          counter === hero - 75 ||
+          counter === hero - 76 ||
+          counter === hero - 77 ||
+          counter === hero - 78 ||
+          counter === hero - 148 ||
+          counter === hero - 149 ||
+          counter === hero - 150 ||
+          counter === hero - 151 ||
+          counter === hero - 152 ||
+          counter === hero - 224 ||
+          counter === hero - 225 ||
+          counter === hero - 226) {
+        current.hidden = false;
+      }
       cells.push(current);
       counter++;
     }
     this.setState({cells: cells});
 
-    document.addEventListener('keyUp', this.handleKeyUp, true);
+    // var _this = this;
+    // var gameLoop = setInterval(() => {
+    //   _this.moveMonsters();
+    // }, 2000);
+    // this.setState({gameLoop: gameLoop});
   }
 
   // LISTEN FOR KEY EVENTS
@@ -70,6 +116,39 @@ export default class Map extends Component {
     }
     updatedHero.location = newLocation;
     this.setState({hero: updatedHero});
+
+
+    // TEST FOR MONSTER MOVEMENT(7)
+    if (e.keyCode === 55) {
+      this.moveMonsters();
+    }
+  }
+
+  // HANDLE MONSTER MOVEMENT
+  moveMonsters() {
+    var allCells = this.state.cells;
+    var newCells = this.state.cells;
+    allCells.forEach((cell) => {
+      if (cell.monster) {
+        var oldLocation = cell.id;
+        var newLocation;
+        var rand = Math.floor(Math.random()*5);
+        if (rand === 0) { //UP
+          newLocation = oldLocation - 75;
+        } else if (rand === 1) { //DOWN
+          newLocation = oldLocation + 75;
+        } else if (rand === 2) { //RIGHT
+          newLocation = oldLocation + 1;
+        } else if (rand === 3) { //LEFT
+          newLocation = oldLocation - 1;
+        }
+        if (oldLocation >= 0 && newLocation >= 0 && oldLocation <= 3749 && oldLocation <= 3749) {
+          newCells[oldLocation].monster = false;
+          newCells[newLocation].monster = true;
+        }
+      }
+    });
+    this.setState({cells: newCells});
   }
 
   // HANDLE MOVEMENT
@@ -88,6 +167,16 @@ export default class Map extends Component {
 
     if (allCells[newCell].weapon) {
       this.getWeapon(newCell);
+    }
+
+    if (this.state.darkness) {
+      allCells.forEach((cell) => {
+        if (cell.id === newCell || cell.id === newCell + 1 || cell.id === newCell + 2 || cell.id === newCell + 3 || cell.id === newCell - 1 || cell.id === newCell - 2 || cell.id === newCell - 3 || cell.id === newCell + 75 || cell.id === newCell + 76 || cell.id === newCell + 77 || cell.id === newCell + 78 || cell.id === newCell + 74 || cell.id === newCell + 73 || cell.id === newCell + 72 || cell.id === newCell + 150 || cell.id === newCell + 151 || cell.id === newCell + 152 || cell.id === newCell + 149 || cell.id === newCell + 148 || cell.id === newCell + 224 || cell.id === newCell + 225 || cell.id === newCell + 226 || cell.id === newCell - 75 || cell.id === newCell - 76 || cell.id === newCell - 77 || cell.id === newCell - 78 || cell.id === newCell - 74 || cell.id === newCell - 73 || cell.id === newCell - 72 || cell.id === newCell - 150 || cell.id === newCell - 151 || cell.id === newCell - 152 || cell.id === newCell - 149 || cell.id === newCell - 148 || cell.id === newCell - 224 || cell.id === newCell - 225 || cell.id === newCell - 226) {
+          cell.hidden = false;
+        } else {
+          cell.hidden = true;
+        }
+      });
     }
 
     this.setState({cells: allCells});
@@ -139,6 +228,32 @@ export default class Map extends Component {
     this.setState({hero: hero});
   }
 
+  playGame(event) {
+    event.stopPropagation();
+    var _this = this;
+    var gameLoop = setInterval(() => {
+      _this.moveMonsters();
+    }, 2000);
+    this.setState({gameLoop: gameLoop});
+  }
+
+  pauseGame(event) {
+    event.stopPropagation();
+    var gameLoop = this.state.gameLoop;
+    clearInterval(gameLoop);
+  }
+
+  toggleOverlay(event) {
+    event.stopPropagation();
+    var allCells = this.state.cells;
+    var newValue = !this.state.darkness;
+    allCells.forEach((cell) => {
+      cell.hidden = newValue;
+    });
+    this.setState({cells: allCells});
+    this.setState({darkness: newValue});
+  }
+
   render() {
     return (
       <div>
@@ -159,6 +274,9 @@ export default class Map extends Component {
             );
           }, this)}
         </div>
+        <div className='btn' id='playBtn' onClick={this.playGame.bind(this)}>PLAY</div>
+        <div className='btn' id='pauseBtn' onClick={this.pauseGame.bind(this)}>PAUSE</div>
+        <div className='btn' id='toggleOverlayBtn' onClick={this.toggleOverlay.bind(this)}>TOGGLE DARKNESS</div>
       </div>
     );
   }

@@ -12,6 +12,8 @@ export default class Cell extends Component {
     var classTitle;
     if (this.props.cell.hero) {
       classTitle = 'cell hero';
+    } else if (this.props.cell.hidden) {
+      classTitle = 'cell hidden';
     } else if (this.props.cell.monster) {
       classTitle = 'cell monster';
     } else if (this.props.cell.potion) {
