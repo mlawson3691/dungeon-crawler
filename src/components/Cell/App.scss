@@ -1,22 +1,43 @@
 .cell {
-  width: 8px;
-  height: 8px;
+  width: 20px;
+  height: 20px;
   float: left;
   margin: 0;
   padding: 0;
-  background: #b3eda8;
 }
 
 .potion {
-  background: blue;
+  background: url('./../../images/potion.png');
+  background-size: 100%;
 }
 
 .weapon {
-  background: orange;
+  background: url('./../../images/swords.png');
+  background-size: 100%;
 }
 
-.monster {
-  background: red;
+.monster1 {
+  background: url('./../../images/wolf.png');
+  background-size: 100%;
+}
+
+.monster2 {
+  background: url('./../../images/deer.png');
+  background-size: 100%;
+}
+
+.monster3 {
+  background: url('./../../images/fox.png');
+  background-size: 100%;
+}
+
+.monster4 {
+  background: url('./../../images/owl.png');
+  background-size: 100%;
+}
+
+.wall {
+  background: #347035;
 }
 
 .hidden {
@@ -24,5 +45,6 @@
 }
 
 .hero {
-  background: green;
+  background: url('./../../images/warrior.png');
+  background-size: 100%;
 }

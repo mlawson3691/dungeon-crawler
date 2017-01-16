@@ -1,10 +1,32 @@
-#board {
+#window {
   width: 600px;
   height: 400px;
   margin: 20px auto;
-  padding: 0;
   border: 3px solid #aaa;
+  overflow: hidden;
+  background: #333;
 }
+
+#map {
+  width: 1500px;
+  height: 1000px;
+  background: #b3eda8;
+  position: relative;
+  top: 90px;
+  left: 190px;
+  outline: none !important;
+}
+
+// #screen {
+//   width: 600px;
+//   height: 400px;
+//   position: absolute;
+//   top: 0;
+//   bottom: 0;
+//   z-index: 10000;
+//   background: green;
+//   opacity: 0.5;
+// }
 
 .btn {
   padding: 10px;
