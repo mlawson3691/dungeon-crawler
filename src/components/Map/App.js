@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import './App.css';
+import Sound from 'react-sound';
 import Cell from './../Cell/App.js';
 import HeroStats from './../HeroStats/App.js';
+import './App.css';
 
 export default class Map extends Component {
   constructor(props) {
@@ -19,7 +20,11 @@ export default class Map extends Component {
         'hp': 10,
         'weapon': 0,
         'location': 380
-      }
+      },
+      effectUrl: './../../../sounds/sword.wav',
+      effectPlayStatus: 'STOPPED',
+      musicPlayStatus: 'PLAYING',
+      soundToggle: 'Sound is ON'
     };
   }
 
@@ -256,6 +261,10 @@ export default class Map extends Component {
 
     this.setState({hero: hero});
     this.setState({cells: allCells});
+    this.setState({
+      effectUrl: './../../../sounds/sword.wav',
+      effectPlayStatus: 'PLAYING'
+    });
   }
 
   // HANDLE HEALTH SPOTS
@@ -268,9 +277,13 @@ export default class Map extends Component {
     }
     var allCells = this.state.cells;
     allCells[location].potion = false;
-    this.setState({hero: hero});
-    this.setState({cells: allCells});
-    this.setState({message: 'You feel revitalized as you drink the healing potion!'});
+    this.setState({
+      hero: hero,
+      cells: allCells,
+      message: 'You feel revitalized as you drink the healing potion!',
+      effectUrl: './../../../sounds/bubble.wav',
+      effectPlayStatus: 'PLAYING'
+    });
   }
 
   // HANDLE WEAPON UPGRADES
@@ -378,6 +391,16 @@ export default class Map extends Component {
     }, 2000);
   }
 
+  toggleSound(event) {
+    event.stopPropagation();
+    var current = this.state.musicPlayStatus;
+    if (current === 'PLAYING') {
+      this.setState({musicPlayStatus: 'STOPPED', soundToggle: 'Sound is OFF'});
+    } else {
+      this.setState({musicPlayStatus: 'PLAYING', soundToggle: 'Sound is ON'});
+    }
+  }
+
   render() {
     return (
       <div>
@@ -416,6 +439,23 @@ export default class Map extends Component {
               </div>*/}
             </div>
           </div>
+        </div>
+        <Sound
+          url={this.state.effectUrl}
+          playStatus={this.state.effectPlayStatus}
+          playFromPosition={0}
+          volume={100}
+          onFinishedPlaying={() => this.setState({effectPlayStatus: 'STOPPED'})}
+        />
+        <Sound
+          url='./../../../sounds/song.mp3'
+          playStatus={this.state.musicPlayStatus}
+          playFromPosition={0}
+          volume={100}
+          onFinishedPlaying={() => this.setState({effectPlayStatus: 'PLAYING'})}
+        />
+        <div id='toggleSoundBtn' onClick={this.toggleSound.bind(this)}>
+          {this.state.soundToggle}
         </div>
         {/*}<div className='btn' id='playBtn' onClick={this.playGame.bind(this)}>PLAY</div>
         <div className='btn' id='pauseBtn' onClick={this.pauseGame.bind(this)}>PAUSE</div>

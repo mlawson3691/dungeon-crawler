@@ -96,3 +96,20 @@
     box-shadow: inset 3px 3px 3px #ddd;
   }
 }
+
+#toggleSoundBtn {
+  width: 100px;
+  border: 1px solid #222;
+  padding: 10px;
+  margin: 50px auto;
+  cursor: pointer;
+  box-shadow: 2px 2px 2px #222;
+
+  &:hover {
+    box-shadow: inset 2px 2px 2px #333;
+  }
+
+  &:active {
+    background: #333;
+  }
+}
