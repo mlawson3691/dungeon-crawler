@@ -206,24 +206,25 @@ export default class Map extends Component {
           }
         });
       }
+      var xPos, yPos;
       var element = ReactDOM.findDOMNode(this.refs.map);
       if (direction === 'up') {
-        var yPos = window.getComputedStyle(element).getPropertyValue("top");
+        yPos = window.getComputedStyle(element).getPropertyValue("top");
         yPos = yPos.replace('px', '');
         yPos = parseInt(yPos, 10) + 20;
         element.style.top = yPos + 'px';
       } else if (direction === 'down') {
-        var yPos = window.getComputedStyle(element).getPropertyValue("top");
+        yPos = window.getComputedStyle(element).getPropertyValue("top");
         yPos = yPos.replace('px', '');
         yPos = parseInt(yPos, 10) - 20;
         element.style.top = yPos + 'px';
       } else if (direction === 'right') {
-        var xPos = window.getComputedStyle(element).getPropertyValue("left");
+        xPos = window.getComputedStyle(element).getPropertyValue("left");
         xPos = xPos.replace('px', '');
         xPos = parseInt(xPos, 10) - 20;
         element.style.left = xPos + 'px';
       } else if (direction === 'left') {
-        var xPos = window.getComputedStyle(element).getPropertyValue("left");
+        xPos = window.getComputedStyle(element).getPropertyValue("left");
         xPos = xPos.replace('px', '');
         xPos = parseInt(xPos, 10) + 20;
         element.style.left = xPos + 'px';
@@ -239,13 +240,15 @@ export default class Map extends Component {
   // HANDLE COMBAT
   fight(location) {
     var hero = this.state.hero;
-    hero.hp --;
+    var damage = 1;
+    hero.hp -= damage;
     hero.xp += 10;
-    if (hero.xp >= hero.level * 100) {
+    if (hero.xp >= 100) {
       this.levelUp();
     }
     var allCells = this.state.cells;
     allCells[location].monster = false;
+
     this.setState({hero: hero});
     this.setState({cells: allCells});
   }
@@ -338,13 +341,8 @@ export default class Map extends Component {
   render() {
     return (
       <div>
-        <div id='stats'>
-          <HeroStats
-            hero={this.state.hero}
-          />
-        </div>
-        <div id='window'>
-          <div ref={'map'} id='map' tabIndex='0' onKeyDown={this.handleKeyDown.bind(this)}>
+        <div id='window' tabIndex='0' onKeyDown={this.handleKeyDown.bind(this)}>
+          <div ref={'map'} id='map'>
             {this.state.cells.map((thisCell, index) => {
               return (
                 <Cell
@@ -356,6 +354,9 @@ export default class Map extends Component {
               );
             }, this)}
           </div>
+          <HeroStats
+            hero={this.state.hero}
+          />
         </div>
         <div className='btn' id='playBtn' onClick={this.playGame.bind(this)}>PLAY</div>
         <div className='btn' id='pauseBtn' onClick={this.pauseGame.bind(this)}>PAUSE</div>

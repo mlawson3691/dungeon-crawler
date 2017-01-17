@@ -5,6 +5,7 @@
   border: 3px solid #aaa;
   overflow: hidden;
   background: #333;
+  outline: none !important;
 }
 
 #map {
@@ -14,7 +15,6 @@
   position: relative;
   top: 90px;
   left: 190px;
-  outline: none !important;
 }
 
 // #screen {

@@ -1,8 +1,95 @@
 #stats {
-  margin: 20px auto;
+  width: 550px;
+  height: 350px;
+  z-index: 1000;
+  position: absolute;
+  top: -189px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  color: #eee;
+  text-align: left;
+  padding: 25px;
+  font-size: 1.3em;
 
-  > div {
-    display: inline-block;
-    margin: 0 20px;
+  .left {
+    float: left;
+
+    > div {
+      margin-bottom: 10px;
+    }
+  }
+
+  .right {
+    float: right;
+
+    > div {
+      margin-bottom: 10px;
+    }
+  }
+
+  #health {
+    margin-top: 250px;
+
+    > div {
+      display: inline-block;
+    }
+  }
+
+  #hp-label {
+    position: relative;
+    top: -5px;
+  }
+
+  #hp-bar {
+    width: 200px;
+    height: 25px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    margin-left: 10px;
+    background: #444;
+  }
+
+  #hp-bar-inner {
+    width: 200px;
+    height: 25px;
+    background: #992b23;
+    border-radius: 8px;
+    > div {
+      width: 200px;
+    }
+  }
+
+  #experience {
+    > div {
+      display: inline-block;
+    }
+  }
+
+  #xp-label {
+    position: relative;
+    top: -5px;
+  }
+
+  #xp-bar {
+    width: 200px;
+    height: 25px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    margin-left: 10px;
+    background: #444;
+  }
+
+  #xp-bar-inner {
+    width: 0px;
+    height: 25px;
+    background: #805ea3;
+    border-radius: 8px;
+    > div {
+      width: 200px;
+    }
   }
 }

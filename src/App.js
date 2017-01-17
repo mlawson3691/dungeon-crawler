@@ -7,7 +7,7 @@ export default class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>The Wyrd Woods</h2>
+          <h2>Witch of the Woods</h2>
         </div>
         <Map />
       </div>

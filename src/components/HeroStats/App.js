@@ -23,13 +23,41 @@ export default class HeroStats extends Component {
       weapon = 'Rusty Dagger';
     }
 
+    var hpPercent = (this.props.hero.hp / 10 * 200) + 'px';
+    var hpStyle = {
+      width: hpPercent
+    }
+
+    var xpPercent = (this.props.hero.xp / 100 * 200) + 'px';
+    var xpStyle = {
+      width: xpPercent
+    }
+
     return (
       <div id='stats'>
-        <div id='level'>Level: {this.props.hero.level}</div>
-        <div id='experience'>XP: {this.props.hero.xp} / {100 * this.props.hero.level}</div>
-        <div id='health'>HP: {this.props.hero.hp} / 10</div>
-        <div id='weapon'>Weapon: {weapon}</div>
-        <div id='damage'>Damage: {this.props.hero.level + this.props.hero.weapon}</div>
+        <div className='left'>
+          <div id='experience'>
+            <div id='xp-label'>XP: </div>
+            <div id='xp-bar'>
+              <div style={xpStyle} id='xp-bar-inner'>
+                {/*<div>{this.props.hero.xp} / {100 * this.props.hero.level}</div>*/}
+              </div>
+            </div>
+          </div>
+          <div id='level'>Level: {this.props.hero.level}</div>
+          <div id='health'>
+            <div id='hp-label'>HP: </div>
+            <div id='hp-bar'>
+              <div style={hpStyle} id='hp-bar-inner'>
+                {/*<div>{this.props.hero.hp} / 10</div>*/}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='right'>
+          <div id='weapon'>Weapon: {weapon}</div>
+          <div id='damage'>Damage: {this.props.hero.level + this.props.hero.weapon}</div>
+        </div>
       </div>
     );
   }
