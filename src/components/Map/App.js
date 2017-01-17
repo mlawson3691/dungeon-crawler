@@ -410,7 +410,7 @@ export default class Map extends Component {
               </div>
             </div>
             <div ref={'history'} id='history'>
-              <p>You awaken to find yourself lost in the dark, misty Wyrd Wood. The thick brush and darkness prevent you from seeing more than a few feet in any direction. You recall the Evil Enchantress, who you thought to be only a myth, attacking your village with the woodland creatures she bewitched. You stand and begin searching for the way home, hoping you do not encounter the Enchantress along the way...</p>
+              <p>You awaken to find yourself lost in the dark, misty woods. The thick brush and darkness prevent you from seeing more than a few feet in any direction. You recall the Evil Enchantress, who you thought to be but a myth, attacking your village with the woodland creatures she bewitched. Now, you set off to search for a path out of the woods, hoping you do not encounter the Enchantress along the way...</p>
               {/*<div className='startBtn' onClick={this.showGame.bind(this)}>
                 BEGIN YOUR ADVENTURE
               </div>*/}
