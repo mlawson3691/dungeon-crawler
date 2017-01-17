@@ -343,18 +343,24 @@ export default class Map extends Component {
     this.refs.titleScreen.style.opacity = 0;
     var _this = this;
     setTimeout(() => {
-      _this.refs.history.style.top = '-1425px';
+      _this.refs.history.style.top = '-2050px';
     }, 1000);
-  }
-
-  showGame(event) {
-    event.stopPropagation();
-    this.refs.screen.style.opacity = 0;
-    var _this = this;
+    setTimeout(() => {
+      _this.refs.screen.style.opacity = 0;
+    }, 22000);
     setTimeout(() => {
       _this.refs.screen.style.display = 'none';
-    }, 2000);
+    }, 24000);
   }
+
+  // showGame(event) {
+  //   event.stopPropagation();
+  //   this.refs.screen.style.opacity = 0;
+  //   var _this = this;
+  //   setTimeout(() => {
+  //     _this.refs.screen.style.display = 'none';
+  //   }, 2000);
+  // }
 
   skipIntro(event) {
     event.stopPropagation();
@@ -396,10 +402,10 @@ export default class Map extends Component {
               </div>
             </div>
             <div ref={'history'} id='history'>
-              <p>This is a bunch of text to tell the history of the game. A story about the witch. And how she took over the forest and controls all of the animals and attacked your home and took you prisoner. You must now escape from the woods and return home to your family.</p>
-              <div className='startBtn' onClick={this.showGame.bind(this)}>
+              <p>You awaken to find yourself lost in the dark, misty Wyrd Wood. The thick brush and darkness prevent you from seeing more than a few feet in any direction. You recall the Evil Enchantress, who you thought to be only a myth, attacking your village with the woodland creatures she bewitched. You stand and begin searching for the way home, hoping you do not encounter the Enchantress along the way...</p>
+              {/*<div className='startBtn' onClick={this.showGame.bind(this)}>
                 BEGIN YOUR ADVENTURE
-              </div>
+              </div>*/}
             </div>
           </div>
         </div>
