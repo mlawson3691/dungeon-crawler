@@ -340,7 +340,6 @@ export default class Map extends Component {
 
   showHistory(event) {
     event.stopPropagation();
-    console.log('history');
     this.refs.titleScreen.style.opacity = 0;
     var _this = this;
     setTimeout(() => {
@@ -350,7 +349,15 @@ export default class Map extends Component {
 
   showGame(event) {
     event.stopPropagation();
-    console.log('game');
+    this.refs.screen.style.opacity = 0;
+    var _this = this;
+    setTimeout(() => {
+      _this.refs.screen.style.display = 'none';
+    }, 2000);
+  }
+
+  skipIntro(event) {
+    event.stopPropagation();
     this.refs.screen.style.opacity = 0;
     var _this = this;
     setTimeout(() => {
@@ -384,6 +391,9 @@ export default class Map extends Component {
               <div className='startBtn' onClick={this.showHistory.bind(this)}>
                 PLAY
               </div>
+              <div className='startBtn' onClick={this.skipIntro.bind(this)}>
+                <span className='small'>[skip intro]</span>
+              </div>
             </div>
             <div ref={'history'} id='history'>
               <p>This is a bunch of text to tell the history of the game. A story about the witch. And how she took over the forest and controls all of the animals and attacked your home and took you prisoner. You must now escape from the woods and return home to your family.</p>
@@ -393,9 +403,9 @@ export default class Map extends Component {
             </div>
           </div>
         </div>
-        <div className='btn' id='playBtn' onClick={this.playGame.bind(this)}>PLAY</div>
+        {/*}<div className='btn' id='playBtn' onClick={this.playGame.bind(this)}>PLAY</div>
         <div className='btn' id='pauseBtn' onClick={this.pauseGame.bind(this)}>PAUSE</div>
-        <div className='btn' id='toggleOverlayBtn' onClick={this.toggleOverlay.bind(this)}>TOGGLE DARKNESS</div>
+        <div className='btn' id='toggleOverlayBtn' onClick={this.toggleOverlay.bind(this)}>TOGGLE DARKNESS</div>*/}
       </div>
     );
   }
