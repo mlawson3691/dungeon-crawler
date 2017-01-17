@@ -12,6 +12,7 @@ export default class Map extends Component {
       mapWidth: 75,
       cells: [],
       darkness: true,
+      message: '',
       hero: {
         'level': 1,
         'xp': 0,
@@ -144,6 +145,7 @@ export default class Map extends Component {
 
   // HANDLE MOVEMENT
   moveHero(oldCell, newCell, direction) {
+    this.setState({message: ''});
     var allCells = this.state.cells;
     if (allCells[newCell].wall === false) {
       allCells[oldCell].hero = false;
@@ -245,6 +247,9 @@ export default class Map extends Component {
     hero.xp += 10;
     if (hero.xp >= 100) {
       this.levelUp();
+      this.setState({message: 'Congratulations! You defeated the beast and leveled up!'});
+    } else {
+      this.setState({message: 'You defeated the beast!'});
     }
     var allCells = this.state.cells;
     allCells[location].monster = false;
@@ -265,6 +270,7 @@ export default class Map extends Component {
     allCells[location].potion = false;
     this.setState({hero: hero});
     this.setState({cells: allCells});
+    this.setState({message: 'You feel revitalized as you drink the healing potion!'});
   }
 
   // HANDLE WEAPON UPGRADES
@@ -275,6 +281,7 @@ export default class Map extends Component {
     allCells[location].weapon = false;
     this.setState({hero: hero});
     this.setState({cells: allCells});
+    this.setState({message: 'You feel stronger as you upgrade your weapon!'});
   }
 
   // HANDLE LEVELING UP
@@ -389,6 +396,7 @@ export default class Map extends Component {
           </div>
           <HeroStats
             hero={this.state.hero}
+            message={this.state.message}
           />
           <div ref={'screen'} id='screen'>
             <div ref={'titleScreen'} id='titleScreen'>

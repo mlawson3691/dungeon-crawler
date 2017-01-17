@@ -58,6 +58,9 @@
     height: 25px;
     background: #992b23;
     border-radius: 8px;
+    -webkit-transition: all 1s ease;
+    transition: all 1s ease;
+
     > div {
       width: 200px;
     }
@@ -89,8 +92,20 @@
     height: 25px;
     background: #805ea3;
     border-radius: 8px;
+    -webkit-transition: all 1s ease;
+    transition: all 1s ease;
+
     > div {
       width: 200px;
     }
+  }
+
+  #message {
+    position: relative;
+    width: 700px;
+    margin-top: 250px;
+    left: -200px;
+    padding-left: 0;
+    text-align: center;
   }
 }

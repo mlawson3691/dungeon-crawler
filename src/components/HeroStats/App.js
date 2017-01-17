@@ -58,6 +58,9 @@ export default class HeroStats extends Component {
           <div id='weapon'>Weapon: {weapon}</div>
           <div id='damage'>Damage: {this.props.hero.level + this.props.hero.weapon}</div>
         </div>
+        <div id='message'>
+          {this.props.message}
+        </div>
       </div>
     );
   }
