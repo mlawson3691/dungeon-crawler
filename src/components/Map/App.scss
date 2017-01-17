@@ -17,16 +17,66 @@
   left: 190px;
 }
 
-// #screen {
-//   width: 600px;
-//   height: 400px;
-//   position: absolute;
-//   top: 0;
-//   bottom: 0;
-//   z-index: 10000;
-//   background: green;
-//   opacity: 0.5;
-// }
+#screen {
+  width: 550px;
+  height: 350px;
+  z-index: 1000;
+  position: absolute;
+  top: -189px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  padding: 25px;
+  background: url('./../../images/forest.png');
+  font-size: 1.3em;
+  text-shadow: 2px 2px 2px #000;
+  color: #ddd;
+  overflow: hidden;
+  opacity: 1; // make 0 when click 'begin'
+  // display: none; // add after opacity hits 0
+  -webkit-transition: all 2s linear;
+  transition: all 2s linear;
+
+  #titleScreen {
+    margin-top: 70px;
+    opacity: 1; // make zero when click 'play'
+    -webkit-transition: all 2s linear;
+    transition: all 2s linear;
+  }
+
+  #history {
+    width: 350px;
+    position: relative;
+    top: 100px; // starting is 100 - ending is -1425
+    padding: 50px 100px;
+    line-height: 2em;
+    font-size: 1.5em;
+    -webkit-transition: all 20s linear;
+    transition: all 20s linear;
+
+    .startBtn {
+      margin-top: 130px;
+    }
+  }
+
+  .startBtn {
+    padding: 10px;
+    font-size: 2em;
+    text-shadow: 4px 4px 4px #000;
+    cursor: pointer;
+
+    &:hover {
+      padding-top: 13px;
+      padding-left: 13px;
+      text-shadow: 1px 1px 1px #000;
+    }
+
+    &:active {
+      color: #666;
+    }
+  }
+}
 
 .btn {
   padding: 10px;

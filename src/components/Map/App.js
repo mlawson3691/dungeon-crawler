@@ -338,6 +338,26 @@ export default class Map extends Component {
     this.setState({cells: newCells});
   }
 
+  showHistory(event) {
+    event.stopPropagation();
+    console.log('history');
+    this.refs.titleScreen.style.opacity = 0;
+    var _this = this;
+    setTimeout(() => {
+      _this.refs.history.style.top = '-1425px';
+    }, 1000);
+  }
+
+  showGame(event) {
+    event.stopPropagation();
+    console.log('game');
+    this.refs.screen.style.opacity = 0;
+    var _this = this;
+    setTimeout(() => {
+      _this.refs.screen.style.display = 'none';
+    }, 2000);
+  }
+
   render() {
     return (
       <div>
@@ -357,6 +377,21 @@ export default class Map extends Component {
           <HeroStats
             hero={this.state.hero}
           />
+          <div ref={'screen'} id='screen'>
+            <div ref={'titleScreen'} id='titleScreen'>
+              <h1>Witch of the Woods</h1>
+              <h3>Will you make it out alive?</h3>
+              <div className='startBtn' onClick={this.showHistory.bind(this)}>
+                PLAY
+              </div>
+            </div>
+            <div ref={'history'} id='history'>
+              <p>This is a bunch of text to tell the history of the game. A story about the witch. And how she took over the forest and controls all of the animals and attacked your home and took you prisoner. You must now escape from the woods and return home to your family.</p>
+              <div className='startBtn' onClick={this.showGame.bind(this)}>
+                BEGIN YOUR ADVENTURE
+              </div>
+            </div>
+          </div>
         </div>
         <div className='btn' id='playBtn' onClick={this.playGame.bind(this)}>PLAY</div>
         <div className='btn' id='pauseBtn' onClick={this.pauseGame.bind(this)}>PAUSE</div>
