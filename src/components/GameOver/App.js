@@ -12,7 +12,7 @@ export default class GameOver extends Component {
 
   playAgain(event) {
     event.stopPropagation();
-    console.log('hi');
+    this.props.playAgain();
   }
 
   render() {

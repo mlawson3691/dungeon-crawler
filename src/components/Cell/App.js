@@ -14,6 +14,12 @@ export default class Cell extends Component {
       classTitle = 'cell hero';
     } else if (this.props.cell.wall) {
       classTitle = 'cell wall';
+    } else if (this.props.cell.road1) {
+      classTitle = 'cell road road1';
+    } else if (this.props.cell.road3) {
+      classTitle = 'cell road road3';
+    } else if (this.props.cell.road) {
+      classTitle = 'cell road';
     } else if (this.props.cell.monster) {
       classTitle = 'cell monster' + this.props.cell.monsterType;
     } else if (this.props.cell.potion) {
@@ -22,9 +28,6 @@ export default class Cell extends Component {
       classTitle = 'cell weapon';
     } else {
       classTitle = 'cell';
-    }
-    if (this.props.cell.hidden) {
-      classTitle += ' hidden';
     }
     return (
       <div className={classTitle} onClick={this.alert.bind(this)}></div>

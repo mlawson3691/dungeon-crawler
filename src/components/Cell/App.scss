@@ -44,11 +44,24 @@
   height: 18px;
 }
 
-.hidden {
-  background: #333;
+.road1 {
+  background: url('./../../images/road1.png');
+  padding: 0 10px;
+  margin: 0 -10px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.road3 {
+  background: url('./../../images/road3.png');
+  padding: 0 10px;
+  margin: 0 -10px;
+  background-size: contain;
 }
 
 .hero {
   background: url('./../../images/warrior.png');
   background-size: 100%;
+  // padding: 10px;
+  // margin: -10px;
 }
