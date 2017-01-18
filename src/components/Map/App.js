@@ -4,6 +4,7 @@ import Sound from 'react-sound';
 import Cell from './../Cell/App.js';
 import HeroStats from './../HeroStats/App.js';
 import Shadow from './../Shadow/App.js';
+import GameOver from './../GameOver/App.js';
 import './App.css';
 
 export default class Map extends Component {
@@ -14,6 +15,7 @@ export default class Map extends Component {
       mapWidth: 75,
       cells: [],
       darkness: true,
+      visibleCells: [138,139,140,168,169,170,171,172,198,199,200,201,202,203,204,228,229,230,231,232,233,234,235,236,259,260,261,262,263,264,265,266,267,290,291,292,293,294,295,296,297,298,322,323,324,325,326,327,328,354,355,356,357,358, 386,387,388],
       message: '',
       hero: {
         'level': 1,
@@ -25,7 +27,10 @@ export default class Map extends Component {
       effectUrl: './../../sounds/sword.wav',
       effectPlayStatus: 'STOPPED',
       musicPlayStatus: 'STOPPED',
-      soundToggle: 'Music is OFF'
+      soundToggle: 'Music is OFF',
+      start: false,
+      gameOver: false,
+      win: false
     };
   }
 
@@ -155,23 +160,27 @@ export default class Map extends Component {
     var hero = this.state.hero;
     var damage = 1;
     hero.hp -= damage;
-    hero.xp += 10;
-    if (hero.xp >= 100) {
-      this.levelUp();
-      this.setState({message: 'Congratulations! You defeated the beast and leveled up!'});
+    if (hero.hp <= 0) {
+      this.gameOver();
     } else {
-      this.setState({message: 'You defeated the beast!'});
-    }
-    var allCells = this.state.cells;
-    allCells[location].monster = false;
+      hero.xp += 10;
+      if (hero.xp >= 100) {
+        this.levelUp();
+        this.setState({message: 'Congratulations! You defeated the beast and leveled up!'});
+      } else {
+        this.setState({message: 'You defeated the beast!'});
+      }
+      var allCells = this.state.cells;
+      allCells[location].monster = false;
 
-    this.setState({hero: hero, cells: allCells});
-    if (this.state.soundToggle === 'Music is ON') {
-      this.setState({
-        // actual url: ./../../sounds/sword.wav
-        effectUrl: 'https://rawgit.com/mlawson3691/dungeon-crawler/master/public/sounds/sword.wav',
-        effectPlayStatus: 'PLAYING'
-      });
+      this.setState({hero: hero, cells: allCells});
+      if (this.state.soundToggle === 'Music is ON') {
+        this.setState({
+          // actual url: ./../../sounds/sword.wav
+          effectUrl: 'https://rawgit.com/mlawson3691/dungeon-crawler/master/public/sounds/sword.wav',
+          effectPlayStatus: 'PLAYING'
+        });
+      }
     }
   }
 
@@ -267,7 +276,7 @@ export default class Map extends Component {
     this.setState({cells: newCells});
   }
 
-  showHistory(event) {
+  startGame(event) {
     event.stopPropagation();
     this.refs.titleScreen.style.opacity = 0;
     var _this = this;
@@ -280,6 +289,7 @@ export default class Map extends Component {
     setTimeout(() => {
       _this.refs.screen.style.display = 'none';
     }, 24000);
+    this.setState({start: true});
   }
 
   skipIntro(event) {
@@ -289,6 +299,7 @@ export default class Map extends Component {
     setTimeout(() => {
       _this.refs.screen.style.display = 'none';
     }, 2000);
+    this.setState({start: true});
   }
 
   toggleSound(event) {
@@ -301,37 +312,47 @@ export default class Map extends Component {
     }
   }
 
+  gameOver() {
+    this.setState({gameOver: true});
+  }
+
   render() {
     return (
       <div>
         <div id='window' tabIndex='0' onKeyDown={this.handleKeyDown.bind(this)}>
-          <div ref={'map'} id='map'>
-            {this.state.cells.map((thisCell, index) => {
-              return (
-                <Cell
-                  key={index}
-                  id={index}
-                  cell={thisCell}
-                  cells={this.state.cells}
-                />
-              );
-            }, this)}
-          </div>
+          {this.state.start &&
+            <div ref={'map'} id='map'>
+              {this.state.cells.map((thisCell, index) => {
+                return (
+                  <Cell
+                    key={index}
+                    id={index}
+                    cell={thisCell}
+                    cells={this.state.cells}
+                  />
+                );
+              }, this)}
+            </div>
+          }
           {this.state.darkness &&
             <Shadow
+              visibleCells={this.state.visibleCells}
               cellCount={this.state.cellCount}
               mapWidth={this.state.mapWidth}
+              gameOver={this.state.gameOver}
             />
           }
-          <HeroStats
-            hero={this.state.hero}
-            message={this.state.message}
-          />
+          {this.state.start &&
+            <HeroStats
+              hero={this.state.hero}
+              message={this.state.message}
+            />
+          }
           <div ref={'screen'} id='screen'>
             <div ref={'titleScreen'} id='titleScreen'>
               <h1>Witch of the Woods</h1>
               <h3>Will you make it out alive?</h3>
-              <div className='startBtn' onClick={this.showHistory.bind(this)}>
+              <div className='startBtn' onClick={this.startGame.bind(this)}>
                 PLAY
               </div>
               <div className='startBtn' onClick={this.skipIntro.bind(this)}>
@@ -342,6 +363,11 @@ export default class Map extends Component {
               <p>You awaken to find yourself lost in the dark, misty woods. The thick brush and darkness prevent you from more than a few feet in any direction. You recall the Evil Enchantress, who you thought to be but a myth, attacking your village with the woodland creatures she bewitched. Now, you set off to search for a path out of the woods, hoping you do not encounter the Enchantress along the way...</p>
             </div>
           </div>
+          {this.state.gameOver &&
+            <GameOver
+              win={this.state.win}
+            />
+          }
         </div>
         <Sound
           url={this.state.effectUrl}
