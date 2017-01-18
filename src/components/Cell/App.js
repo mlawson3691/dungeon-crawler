@@ -20,6 +20,10 @@ export default class Cell extends Component {
       classTitle = 'cell road road3';
     } else if (this.props.cell.road) {
       classTitle = 'cell road';
+    } else if (this.props.cell.bossImg) {
+      classTitle = 'cell boss bossImg';
+    } else if (this.props.cell.boss) {
+      classTitle = 'cell boss';
     } else if (this.props.cell.monster) {
       classTitle = 'cell monster' + this.props.cell.monsterType;
     } else if (this.props.cell.potion) {
