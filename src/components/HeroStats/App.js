@@ -23,12 +23,12 @@ export default class HeroStats extends Component {
       weapon = 'Rusty Dagger';
     }
 
-    var hpPercent = (this.props.hero.hp / 10 * 200) + 'px';
+    var hpPercent = (this.props.hero.hp / (this.props.hero.level * 10) * 200) + 'px';
     var hpStyle = {
       width: hpPercent
     }
 
-    var xpPercent = (this.props.hero.xp / 100 * 200) + 'px';
+    var xpPercent = (this.props.hero.xp / (this.props.hero.level * 100) * 200) + 'px';
     var xpStyle = {
       width: xpPercent
     }
@@ -40,7 +40,7 @@ export default class HeroStats extends Component {
             <div id='xp-label'>XP: </div>
             <div id='xp-bar'>
               <div style={xpStyle} id='xp-bar-inner'>
-                {/*<div>{this.props.hero.xp} / {100 * this.props.hero.level}</div>*/}
+                <div>{this.props.hero.xp} / {100 * this.props.hero.level}</div>
               </div>
             </div>
           </div>
@@ -49,7 +49,7 @@ export default class HeroStats extends Component {
             <div id='hp-label'>HP: </div>
             <div id='hp-bar'>
               <div style={hpStyle} id='hp-bar-inner'>
-                {/*<div>{this.props.hero.hp} / 10</div>*/}
+                <div>{this.props.hero.hp} / {this.props.hero.level * 10}</div>
               </div>
             </div>
           </div>

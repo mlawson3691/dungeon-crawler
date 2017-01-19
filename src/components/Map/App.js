@@ -217,13 +217,41 @@ export default class Map extends Component {
   // HANDLE COMBAT
   fight(location) {
     var hero = this.state.hero;
-    var damage = 1;
-    hero.hp -= damage;
+    var monster = {};
+    if (hero.level === 1) {
+      monster.level = 1;
+    } else {
+      monster.level = hero.level - 1 + Math.floor(Math.random() * 3); // hero level - 1 <-> hero level + 1;
+    }
+    monster.hp = monster.level * 3;
+    monster.xp = monster.level * 10;
+
+    function heroAttack(heroDamage) {
+      return 1 + Math.floor(Math.random() * heroDamage); // 0 <-> hero weapon
+    }
+
+    function monsterAttack(monsterLvl) {
+      return Math.floor(Math.random() * (monsterLvl + 1)); // 0 <-> monster level
+    }
+
+    while (hero.hp > 0 && monster.hp > 0) {
+      var heroDmg = heroAttack(hero.weapon + hero.level);
+      monster.hp -= heroDmg;
+      console.log('heroDmg ' + heroDmg);
+      console.log('monster: ' + monster.hp);
+      if (monster.hp > 0) {
+        var monsterDmg = monsterAttack(monster.level);
+        hero.hp -= monsterDmg;
+        console.log('monsterDmg ' + monsterDmg)
+        console.log('hero: ' + hero.hp);
+      }
+    }
+
     if (hero.hp <= 0) {
       this.gameOver();
     } else {
-      hero.xp += 10;
-      if (hero.xp >= 100) {
+      hero.xp += monster.xp;
+      if (hero.xp >= 100 * hero.level) {
         this.levelUp();
         this.setState({message: 'Congratulations! You defeated the beast and leveled up!'});
       } else {
@@ -246,10 +274,10 @@ export default class Map extends Component {
   // HANDLE HEALTH SPOTS
   getHealth(location) {
     var hero = this.state.hero;
-    if (hero.hp < 5) {
-      hero.hp += 5;
-    } else {
-      hero.hp = 10;
+    var max = hero.level * 10;
+    hero.hp += max / 2;
+    if (hero.hp >= max) {
+      hero.hp = max
     }
     var allCells = this.state.cells;
     allCells[location].potion = false;
@@ -284,7 +312,7 @@ export default class Map extends Component {
     var hero = this.state.hero;
     hero.level ++;
     hero.xp = 0;
-    hero.hp = 10;
+    hero.hp = hero.level * 10;
     this.setState({hero: hero});
   }
 
