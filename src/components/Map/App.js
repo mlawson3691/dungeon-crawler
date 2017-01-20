@@ -26,8 +26,9 @@ export default class Map extends Component {
       },
       effectUrl: './../../sounds/sword.wav',
       effectPlayStatus: 'STOPPED',
-      musicPlayStatus: 'STOPPED',
-      soundToggle: 'Music is OFF',
+      effectVolume: 100,
+      musicPlayStatus: 'PLAYING',
+      soundToggle: 'Music is ON',
       start: false,
       gameOver: false,
       win: false
@@ -39,23 +40,24 @@ export default class Map extends Component {
   }
 
   playAgain() {
-    this.setState({
-      cells: [],
-      darkness: true,
-      message: '',
-      hero: {
-        'level': 1,
-        'xp': 0,
-        'hp': 10,
-        'weapon': 0,
-        'location': 380
-      },
-      gameOver: false,
-      win: false,
-    });
-    this.randomizeMap();
-    this.refs.map.style.top = '40px';
-    this.refs.map.style.left = '170px';
+    // this.setState({
+    //   cells: [],
+    //   darkness: true,
+    //   message: '',
+    //   hero: {
+    //     'level': 1,
+    //     'xp': 0,
+    //     'hp': 10,
+    //     'weapon': 0,
+    //     'location': 380
+    //   },
+    //   gameOver: false,
+    //   win: false,
+    // });
+    // this.randomizeMap();
+    // this.refs.map.style.top = '40px';
+    // this.refs.map.style.left = '170px';
+    window.location.reload();
   }
 
   randomizeMap() {
@@ -160,16 +162,8 @@ export default class Map extends Component {
       allCells[oldCell].hero = false;
       allCells[newCell].hero = true;
 
-      if (allCells[newCell].boss) {
-        // BOSS FIGHT
-        // REMOVE BOSS CLASS
-      }
-
       if (allCells[newCell].road) {
-        // WIN
         this.gameOver();
-        this.setState({win: true});
-        // DOES NOT FADE PROPERLY???
       }
 
       if (allCells[newCell].monster) {
@@ -216,12 +210,16 @@ export default class Map extends Component {
 
   // HANDLE COMBAT
   fight(location) {
+    var allCells = this.state.cells;
     var hero = this.state.hero;
     var monster = {};
-    if (hero.level === 1) {
-      monster.level = 1;
+
+    if (allCells[location].boss && !this.state.win) {
+      monster.level = 10;
+    } else if (hero.level === 1) {
+        monster.level = 1;
     } else {
-      monster.level = hero.level - 1 + Math.floor(Math.random() * 3); // hero level - 1 <-> hero level + 1;
+      monster.level = hero.level + Math.floor(Math.random() * 3); // hero level <-> hero level + 2;
     }
     monster.hp = monster.level * 3;
     monster.xp = monster.level * 10;
@@ -256,18 +254,26 @@ export default class Map extends Component {
         this.setState({message: 'Congratulations! You defeated the beast and leveled up!'});
       } else {
         this.setState({message: 'You defeated the beast!'});
+        if (this.state.soundToggle === 'Music is ON') {
+          this.setState({
+            // actual url: ./../../sounds/sword.wav
+            effectUrl: 'https://rawgit.com/mlawson3691/dungeon-crawler/master/public/sounds/sword.wav',
+            effectPlayStatus: 'PLAYING',
+            effectVolume: 20
+          });
+        }
       }
-      var allCells = this.state.cells;
-      allCells[location].monster = false;
-
-      this.setState({hero: hero, cells: allCells});
-      if (this.state.soundToggle === 'Music is ON') {
-        this.setState({
-          // actual url: ./../../sounds/sword.wav
-          effectUrl: 'https://rawgit.com/mlawson3691/dungeon-crawler/master/public/sounds/sword.wav',
-          effectPlayStatus: 'PLAYING'
+      if (allCells[location].boss) {
+        this.setState({win: true});
+        allCells.forEach((cell, index) => {
+          if (cell.bossImg) {
+            cell.bossImg = false;
+          }
         });
+      } else {
+        allCells[location].monster = false;
       }
+      this.setState({hero: hero, cells: allCells});
     }
   }
 
@@ -290,7 +296,8 @@ export default class Map extends Component {
       this.setState({
         // actual url: ./../../sounds/bubble.wav
         effectUrl: 'https://rawgit.com/mlawson3691/dungeon-crawler/master/public/sounds/bubble.wav',
-        effectPlayStatus: 'PLAYING'
+        effectPlayStatus: 'PLAYING',
+        effectVolume: 100
       });
     }
   }
@@ -305,6 +312,14 @@ export default class Map extends Component {
       cells: allCells,
       message: 'You feel stronger as you upgrade your weapon!'
     });
+    if (this.state.soundToggle === 'Music is ON') {
+      this.setState({
+        // actual url: ./../../sounds/upgrade.wav
+        effectUrl: 'https://rawgit.com/mlawson3691/dungeon-crawler/master/public/sounds/upgrade.wav',
+        effectPlayStatus: 'PLAYING',
+        effectVolume: 100
+      });
+    }
   }
 
   // HANDLE LEVELING UP
@@ -314,6 +329,14 @@ export default class Map extends Component {
     hero.xp = 0;
     hero.hp = hero.level * 10;
     this.setState({hero: hero});
+    if (this.state.soundToggle === 'Music is ON') {
+      this.setState({
+        // actual url: ./../../sounds/level.wav
+        effectUrl: 'https://rawgit.com/mlawson3691/dungeon-crawler/master/public/sounds/level.wav',
+        effectPlayStatus: 'PLAYING',
+        effectVolume: 100
+      });
+    }
   }
 
   // playGame(event) {
@@ -447,7 +470,7 @@ export default class Map extends Component {
               </div>
             </div>
             <div ref={'history'} id='history'>
-              <p>You awaken to find yourself lost in the dark, misty woods. The thick brush and darkness prevent you from more than a few feet in any direction. You recall the Evil Enchantress, who you thought to be but a myth, attacking your village with the woodland creatures she bewitched. Now, you set off to search for a path out of the woods, hoping you do not encounter the Enchantress along the way...</p>
+              <p>You awaken to find yourself lost in the dark, misty woods. The thick brush prevents you from seeing more than a few feet in any direction. You recall the Evil Enchantress, who you thought to be but a myth, attacking your village with the woodland creatures she bewitched. Now, you set off to search for a path out of the woods, hoping you do not encounter the Enchantress along the way...</p>
             </div>
           </div>
           {this.state.gameOver &&
@@ -460,8 +483,8 @@ export default class Map extends Component {
         <Sound
           url={this.state.effectUrl}
           playStatus={this.state.effectPlayStatus}
-          playFromPosition={0}
-          volume={100}
+          playFromPosition={200}
+          volume={this.state.effectVolume}
           onFinishedPlaying={() => this.setState({effectPlayStatus: 'STOPPED'})}
         />
         {/* actual url: ./../../sounds/song.mp3 */}

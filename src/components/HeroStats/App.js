@@ -40,7 +40,7 @@ export default class HeroStats extends Component {
             <div id='xp-label'>XP: </div>
             <div id='xp-bar'>
               <div style={xpStyle} id='xp-bar-inner'>
-                <div>{this.props.hero.xp} / {100 * this.props.hero.level}</div>
+                {/*<div>{this.props.hero.xp} / {100 * this.props.hero.level}</div>*/}
               </div>
             </div>
           </div>
@@ -49,7 +49,7 @@ export default class HeroStats extends Component {
             <div id='hp-label'>HP: </div>
             <div id='hp-bar'>
               <div style={hpStyle} id='hp-bar-inner'>
-                <div>{this.props.hero.hp} / {this.props.hero.level * 10}</div>
+                {/*}<div>{this.props.hero.hp} / {this.props.hero.level * 10}</div>*/}
               </div>
             </div>
           </div>
