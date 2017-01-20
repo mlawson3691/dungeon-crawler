@@ -166,7 +166,7 @@ export default class Map extends Component {
         this.gameOver();
       }
 
-      if (allCells[newCell].monster) {
+      if (allCells[newCell].monster || (allCells[newCell].boss && this.state.win === false)) {
         this.fight(newCell);
       }
 
@@ -214,7 +214,7 @@ export default class Map extends Component {
     var hero = this.state.hero;
     var monster = {};
 
-    if (allCells[location].boss && !this.state.win) {
+    if (allCells[location].boss) {
       monster.level = 10;
     } else if (hero.level === 1) {
         monster.level = 1;
@@ -264,7 +264,7 @@ export default class Map extends Component {
         }
       }
       if (allCells[location].boss) {
-        this.setState({win: true});
+        this.setState({win: true, message: 'You defeated the Evil Enchantress!'});
         allCells.forEach((cell, index) => {
           if (cell.bossImg) {
             cell.bossImg = false;

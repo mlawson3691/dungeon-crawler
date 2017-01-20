@@ -19,7 +19,7 @@ export default class GameOver extends Component {
     return (
       <div ref={'gameOver'} id='gameOver'>
         {this.props.win ? (
-          <div>You Win!</div>
+          <div>You successfully defeated the Evil Enchantress and escaped from the woods!</div>
         ) : (
           <div>Oh no! The forest was too much for you to handle!</div>
         )}
