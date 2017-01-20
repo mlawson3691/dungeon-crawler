@@ -3,15 +3,18 @@ import './App.css';
 
 export default class Cell extends Component {
 
-  alert(event) {
-    event.stopPropagation();
-    console.log(this.props.cell.id);
-  }
-
   render() {
     var classTitle;
     if (this.props.cell.hero) {
-      classTitle = 'cell hero';
+      if (this.props.direction === 'up') {
+        classTitle = 'cell hero heroUp';
+      } else if (this.props.direction === 'down') {
+        classTitle = 'cell hero heroDown';
+      } else if (this.props.direction === 'right') {
+        classTitle = 'cell hero heroRight';
+      } else if (this.props.direction === 'left') {
+        classTitle = 'cell hero heroLeft';
+      }
     } else if (this.props.cell.wall) {
       classTitle = 'cell wall';
     } else if (this.props.cell.road1) {
@@ -34,7 +37,7 @@ export default class Cell extends Component {
       classTitle = 'cell';
     }
     return (
-      <div className={classTitle} onClick={this.alert.bind(this)}></div>
+      <div className={classTitle}></div>
     );
   }
 }

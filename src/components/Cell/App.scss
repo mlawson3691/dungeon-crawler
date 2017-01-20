@@ -66,9 +66,22 @@
   background-size: contain;
 }
 
-.hero {
-  background: url('./../../images/warrior.png');
+.heroUp {
+  background: url('./../../images/heroUp.png');
   background-size: 100%;
-  // padding: 10px;
-  // margin: -10px;
+}
+
+.heroDown {
+  background: url('./../../images/heroDown.png');
+  background-size: 100%;
+}
+
+.heroRight {
+  background: url('./../../images/heroRight.png');
+  background-size: 100%;
+}
+
+.heroLeft {
+  background: url('./../../images/heroLeft.png');
+  background-size: 100%;
 }

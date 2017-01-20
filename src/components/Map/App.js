@@ -24,6 +24,7 @@ export default class Map extends Component {
         'weapon': 0,
         'location': 380
       },
+      direction: 'down',
       effectUrl: './../../sounds/sword.wav',
       effectPlayStatus: 'STOPPED',
       effectVolume: 100,
@@ -137,20 +138,25 @@ export default class Map extends Component {
     if (!this.state.gameOver && this.state.start) {
       var hero = this.state.hero;
       var oldCell = hero.location;
-      var newCell;
+      var newCell, direction;
       if (e.keyCode === 38) { // UP
         newCell = oldCell - 75;
+        direction = 'up';
         this.moveHero(oldCell, newCell, 'up');
       } else if (e.keyCode === 40) { // DOWN
         newCell = oldCell + 75;
+        direction = 'down';
         this.moveHero(oldCell, newCell, 'down');
       } else if (e.keyCode === 39) { // RIGHT
         newCell = oldCell + 1;
+        direction = 'right';
         this.moveHero(oldCell, newCell, 'right');
       } else if (e.keyCode === 37) { // LEFT
         newCell = oldCell - 1;
+        direction = 'left';
         this.moveHero(oldCell, newCell, 'left');
       }
+      this.setState({direction: direction});
     }
   }
 
@@ -440,6 +446,7 @@ export default class Map extends Component {
                     id={index}
                     cell={thisCell}
                     cells={this.state.cells}
+                    direction={this.state.direction}
                   />
                 );
               }, this)}
